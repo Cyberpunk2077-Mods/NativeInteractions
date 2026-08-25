@@ -84,6 +84,8 @@ function mod:new()
                 self.baseUI.interactionUI.interaction:editEnd()
                 self.baseUI.interactionUI.interaction = nil
             end
+
+            utils.saveLock = 0
         end)
 
         self.GameUI.OnSessionEnd(function()
