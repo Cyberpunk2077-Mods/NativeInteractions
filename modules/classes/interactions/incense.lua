@@ -97,10 +97,12 @@ function incense:reset()
         incense:SetWorldTransform(transform)
     end
 
-    Game.GetResourceDepot():RemoveResourceFromCache("nif\\quest\\incense_stop.scene")
-    resourceHelper.registerPatch("nif\\quest\\incense_stop.scene", self:getPatchData())
-    Game.GetQuestsSystem():SetFactStr("nif_interaction_id", 9)
-    Game.GetQuestsSystem():SetFactStr("nif_start_signal", 1)
+    resourceHelper.requestSceneStart(self, function ()
+        Game.GetResourceDepot():RemoveResourceFromCache("nif\\quest\\incense_stop.scene")
+        resourceHelper.registerPatch("nif\\quest\\incense_stop.scene", self:getPatchData())
+        Game.GetQuestsSystem():SetFactStr("nif_interaction_id", 9)
+        Game.GetQuestsSystem():SetFactStr("nif_start_signal", 1)
+    end)
 end
 
 function incense:onUpdate(playerPosition)

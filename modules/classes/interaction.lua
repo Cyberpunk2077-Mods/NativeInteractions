@@ -111,11 +111,13 @@ function interaction:start()
             return
         end
 
-        Game.GetResourceDepot():RemoveResourceFromCache(self.scene)
-        resourceHelper.registerPatch(self.scene, self:getPatchData())
-        Game.GetQuestsSystem():SetFactStr("nif_start_signal", 1)
-        Game.GetQuestsSystem():SetFactStr("nif_interaction_id", self.startFactID)
-        utils.addSaveLock()
+        resourceHelper.requestSceneStart(self, function ()
+            Game.GetResourceDepot():RemoveResourceFromCache(self.scene)
+            resourceHelper.registerPatch(self.scene, self:getPatchData())
+            Game.GetQuestsSystem():SetFactStr("nif_start_signal", 1)
+            Game.GetQuestsSystem():SetFactStr("nif_interaction_id", self.startFactID)
+            utils.addSaveLock()
+        end)
     end)
 end
 
@@ -123,6 +125,7 @@ function interaction:stop()
     if not self.sceneRunning then return end
 
     self.sceneRunning = false
+    resourceHelper.cancelSceneStart(self)
 
     -- cancle pending start
     if self.pendingStartTimer then

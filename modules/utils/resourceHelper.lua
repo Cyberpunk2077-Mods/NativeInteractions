@@ -4,7 +4,8 @@ local Cron = require("modules/utils/Cron")
 local helper = {
     patches = {},
     journalPatches = {},
-    endEvents = {}
+    endEvents = {},
+    sceneQueue = {}
 }
 
 local inputListener
@@ -67,6 +68,36 @@ function helper.init()
         helper.patchLocalization(scene, path)
         helper.patchRemovals(scene, path)
     end)
+end
+
+function helper.requestSceneStart(owner, launch)
+    for _, queued in ipairs(helper.sceneQueue) do
+        if queued.owner == owner then return false end
+    end
+
+    table.insert(helper.sceneQueue, { owner = owner, launch = launch })
+    return false
+end
+
+function helper.cancelSceneStart(owner)
+    for index = #helper.sceneQueue, 1, -1 do
+        if helper.sceneQueue[index].owner == owner then
+            table.remove(helper.sceneQueue, index)
+        end
+    end
+    return true
+end
+
+-- Only start one scene per frame, as everything goes through shared nif_interaction_id fact
+function helper.onUpdate()
+    helper.startNextScene()
+end
+
+function helper.startNextScene()
+    if #helper.sceneQueue == 0 then return end
+
+    local request = table.remove(helper.sceneQueue, 1)
+    request.launch()
 end
 
 -- Patch nodeIDs of choice hubs

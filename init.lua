@@ -105,6 +105,7 @@ function mod:new()
             Cron.Update(dt)
             manager.update()
             world.update()
+            resourceHelper.onUpdate()
         end
     end)
 
