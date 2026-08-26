@@ -74,6 +74,7 @@ function mod:new()
             manager.sessionStart()
             world.onSessionStart()
             resourceHelper.endEvents = {}
+            resourceHelper.sceneQueue = {}
             resourceHelper.patches = {}
             removals.registerPatches()
             self.baseUI.interactionUI.paused = false
