@@ -111,7 +111,7 @@ function interaction:start()
             return
         end
 
-        resourceHelper.requestSceneStart(self, function ()
+        resourceHelper.requestSceneSignal(self, function ()
             Game.GetResourceDepot():RemoveResourceFromCache(self.scene)
             resourceHelper.registerPatch(self.scene, self:getPatchData())
             Game.GetQuestsSystem():SetFactStr("nif_start_signal", 1)
@@ -125,7 +125,11 @@ function interaction:stop()
     if not self.sceneRunning then return end
 
     self.sceneRunning = false
-    resourceHelper.cancelSceneStart(self)
+
+    -- Scene didnt even get started, could probably also just move registerSceneEnd into requestSceneSignal cb
+    if resourceHelper.cancelSceneSignal(self) then
+        resourceHelper.endEvents[self.endEvent] = nil
+    end
 
     -- cancle pending start
     if self.pendingStartTimer then

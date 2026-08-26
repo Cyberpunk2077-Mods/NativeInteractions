@@ -76,7 +76,7 @@ function iguana:onUpdate(playerPosition)
     if distance < self.animationDistance - 1 and not self.animationActive and not resourceHelper.endEvents[self.endEvent] and Game.GetQuestsSystem():GetFactStr("nif_iguana_idle") == 0 and utils.getEntityByRef(self.iguanaRef) then
         -- Delay needed for session start
         self.startCron = Cron.After(0.1, function ()
-            resourceHelper.requestSceneStart(self, function ()
+            resourceHelper.requestSceneSignal(self, function ()
                 Game.GetResourceDepot():RemoveResourceFromCache("nif\\quest\\iguana_idle.scene")
                 resourceHelper.registerPatch("nif\\quest\\iguana_idle.scene", self:getPatchData())
                 Game.GetQuestsSystem():SetFactStr("nif_interaction_id", 21)

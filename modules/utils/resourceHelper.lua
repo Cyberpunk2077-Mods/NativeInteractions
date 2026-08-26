@@ -70,30 +70,34 @@ function helper.init()
     end)
 end
 
-function helper.requestSceneStart(owner, launch)
+-- Queue some callback bound to some owner table, of which only one can be executed per frame
+function helper.requestSceneSignal(owner, launch)
     for _, queued in ipairs(helper.sceneQueue) do
-        if queued.owner == owner then return false end
+        if queued.owner == owner then return end
     end
 
     table.insert(helper.sceneQueue, { owner = owner, launch = launch })
-    return false
 end
 
-function helper.cancelSceneStart(owner)
+function helper.cancelSceneSignal(owner)
+    local removed = false
+
     for index = #helper.sceneQueue, 1, -1 do
         if helper.sceneQueue[index].owner == owner then
             table.remove(helper.sceneQueue, index)
+            removed = true
         end
     end
-    return true
+
+    return removed
 end
 
 -- Only start one scene per frame, as everything goes through shared nif_interaction_id fact
 function helper.onUpdate()
-    helper.startNextScene()
+    helper.nextSceneSignal()
 end
 
-function helper.startNextScene()
+function helper.nextSceneSignal()
     if #helper.sceneQueue == 0 then return end
 
     local request = table.remove(helper.sceneQueue, 1)
