@@ -25,7 +25,15 @@ jobs:
           if [[ "$GITHUB_REF_TYPE" == tag ]]; then
             version="${GITHUB_REF_NAME#v}"; suffix=""
           else
-            version="0.0.0"
+            version="$(git tag -l --sort=-v:refname | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' | head -n1)"
+            if [[ -z "$version" ]]; then
+              version="$(git tag -l --sort=-v:refname | grep -E '^v?[0-9]' | head -n1)"
+            fi
+            version="${version#v}"
+            if [[ -z "$version" ]]; then
+              version="$(sed -n 's/.*ModVersion = "\([^"]*\)".*/\1/p' modules/ui/baseUI.lua | head -n1)"
+            fi
+            version="${version:-0.0.0}"
             patch="$(git rev-list --count --since="$(date -u +%Y-%m-01T00:00:00Z)" HEAD)"
             suffix="_$(date -u +%Y).$((10#$(date -u +%m))).${patch:-1}"
           fi
