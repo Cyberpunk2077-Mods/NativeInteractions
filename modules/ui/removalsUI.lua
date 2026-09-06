@@ -1,5 +1,6 @@
 local style = require("modules/ui/style")
 local removals = require("modules/removalManager")
+local localization = require("modules/localization")
 
 ---@class removalsUI
 ---@field public mod mod?
@@ -55,7 +56,7 @@ function removalsUI.draw(mod)
     end
 
     if not removalsUI.project then
-        style.mutedText("No project loaded.")
+        style.mutedText(localization.get("noProject"))
         return
     end
 

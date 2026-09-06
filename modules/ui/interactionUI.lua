@@ -2,6 +2,7 @@ local utils = require("modules/utils/utils")
 local style = require("modules/ui/style")
 local world = require("modules/utils/worldInteraction")
 local ref = require("modules/utils/Ref")
+local localization = require("modules/localization")
 
 local function getDefaultIconColor()
     return { Red = 0.15829999744892, Green = 1.3033000230789, Blue = 1.4141999483109, Alpha = 1.0 }
@@ -274,7 +275,7 @@ function interactionUI.draw(mod)
     end
 
     if not interactionUI.interaction then
-        style.mutedText("No interaction loaded.")
+        style.mutedText(localization.get("noInteraction"))
         return
     end
 

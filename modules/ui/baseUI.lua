@@ -4,6 +4,7 @@ local ModVersion = "1.1.3"
 local ModName = "Native Interactions"
 
 local style = require("modules/ui/style")
+local localization = require("modules/localization")
 
 ---@class baseUI
 ---@field public savedUI savedUI
@@ -64,29 +65,53 @@ function baseUI.draw(debug)
 
     if ImGui.Begin(getWindowName(), ImGuiWindowFlags.AlwaysAutoResize) then
         if ImGui.BeginTabBar("Tabbar", ImGuiTabItemFlags.NoTooltip) then
-            if ImGui.BeginTabItem("Projects") then
+            if ImGui.BeginTabItem(localization.get("projects")) then
                 ImGui.Spacing()
                 baseUI.savedUI.draw(debug)
                 ImGui.EndTabItem()
             end
 
-            if ImGui.BeginTabItem("Edit Project", baseUI.switchToEdit and ImGuiTabItemFlags.SetSelected or ImGuiTabItemFlags.None) then
+            if ImGui.BeginTabItem(localization.get("editProject"), baseUI.switchToEdit and ImGuiTabItemFlags.SetSelected or ImGuiTabItemFlags.None) then
                 baseUI.switchToEdit = false
                 ImGui.Spacing()
                 baseUI.editUI.draw(debug)
                 ImGui.EndTabItem()
             end
 
-            if ImGui.BeginTabItem("Edit Interaction", baseUI.switchToInteraction and ImGuiTabItemFlags.SetSelected or ImGuiTabItemFlags.None) then
+            if ImGui.BeginTabItem(localization.get("editInteraction"), baseUI.switchToInteraction and ImGuiTabItemFlags.SetSelected or ImGuiTabItemFlags.None) then
                 baseUI.switchToInteraction = false
                 ImGui.Spacing()
                 baseUI.interactionUI.draw(debug)
                 ImGui.EndTabItem()
             end
 
-            if ImGui.BeginTabItem("Edit Removals") then
+            if ImGui.BeginTabItem(localization.get("editRemovals")) then
                 ImGui.Spacing()
                 baseUI.removalsUI.draw(debug)
+                ImGui.EndTabItem()
+            end
+
+            if ImGui.BeginTabItem(localization.get("settings")) then
+                ImGui.Spacing()
+                style.mutedText(localization.get("language") .. ":")
+                ImGui.SameLine()
+                ImGui.SetNextItemWidth(220 * style.viewSize)
+
+                local selected = localization.getSelected()
+                local preview = localization.get("follow")
+                for _, language in ipairs(localization.getLanguages()) do
+                    if language.code == selected and selected ~= "auto" then preview = language.name end
+                end
+
+                if ImGui.BeginCombo("##language", preview) then
+                    for _, language in ipairs(localization.getLanguages()) do
+                        local label = language.code == "auto" and localization.get("follow") or language.name
+                        if ImGui.Selectable(label, language.code == selected) then
+                            localization.setLanguage(language.code)
+                        end
+                    end
+                    ImGui.EndCombo()
+                end
                 ImGui.EndTabItem()
             end
 

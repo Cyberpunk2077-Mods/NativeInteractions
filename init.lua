@@ -22,6 +22,7 @@ local world = require("modules/utils/worldInteraction")
 local removals = require("modules/removalManager")
 local apartmentManager = require("modules/apartmentManager")
 local utils = require("modules/utils/utils")
+local localization = require("modules/localization")
 
 ---@class mod
 ---@field runtimeData {cetOpen: boolean, inGame: boolean, inMenu: boolean}
@@ -49,6 +50,7 @@ function mod:new()
     registerForEvent("onInit", function()
         math.randomseed(os.time())
 
+        localization.init()
         self.baseUI.init()
         resourceHelper.init() -- Must be called before (apartment) interactions are loaded / manager.init
         manager.init(self)

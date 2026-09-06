@@ -2,6 +2,7 @@ local config = require("modules/utils/config")
 local utils = require("modules/utils/utils")
 local style = require("modules/ui/style")
 local manager = require("modules/projectsManager")
+local localization = require("modules/localization")
 
 ---@class savedUI
 ---@field filter string
@@ -25,7 +26,7 @@ local savedUI = {
 
 function savedUI.drawLoaded()
     if not savedUI.mod.baseUI.editUI.project then
-        style.mutedText("No project loaded.")
+        style.mutedText(localization.get("noProject"))
         return
     end
 

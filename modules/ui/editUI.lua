@@ -1,4 +1,5 @@
 local style = require("modules/ui/style")
+local localization = require("modules/localization")
 
 local interactions = {
     { name = "", class = require("modules/classes/interactions/wardrobe") },
@@ -55,7 +56,7 @@ function editUI.draw(mod)
     end
 
     if not editUI.project then
-        style.mutedText("No project loaded.")
+        style.mutedText(localization.get("noProject"))
         return
     end
 
