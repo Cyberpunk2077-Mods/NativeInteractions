@@ -2,28 +2,29 @@ local config = require("modules/utils/config")
 
 local localization = {}
 local configPath = "settings.json"
+local uiText = require("modules/localization_zh")
 
 local languages = {
     { code = "auto", name = "Follow game language" },
-    { code = "ar-ar", name = "Arabic" },
-    { code = "cz-cz", name = "Czech" },
-    { code = "de-de", name = "German" },
+    { code = "ar-ar", name = "العربية" },
+    { code = "cz-cz", name = "Čeština" },
+    { code = "de-de", name = "Deutsch" },
     { code = "en-us", name = "English" },
-    { code = "es-es", name = "Spanish" },
-    { code = "es-mx", name = "Spanish (Mexico)" },
-    { code = "fr-fr", name = "French" },
-    { code = "hu-hu", name = "Hungarian" },
-    { code = "it-it", name = "Italian" },
-    { code = "jp-jp", name = "Japanese" },
-    { code = "kr-kr", name = "Korean" },
-    { code = "pl-pl", name = "Polish" },
-    { code = "pt-br", name = "Portuguese (Brazil)" },
-    { code = "ru-ru", name = "Russian" },
-    { code = "th-th", name = "Thai" },
-    { code = "tr-tr", name = "Turkish" },
-    { code = "ua-ua", name = "Ukrainian" },
-    { code = "zh-cn", name = "Chinese (Simplified)" },
-    { code = "zh-tw", name = "Chinese (Traditional)" }
+    { code = "es-es", name = "Español" },
+    { code = "es-mx", name = "Español (México)" },
+    { code = "fr-fr", name = "Français" },
+    { code = "hu-hu", name = "Magyar" },
+    { code = "it-it", name = "Italiano" },
+    { code = "jp-jp", name = "日本語" },
+    { code = "kr-kr", name = "한국어" },
+    { code = "pl-pl", name = "Polski" },
+    { code = "pt-br", name = "Português (Brasil)" },
+    { code = "ru-ru", name = "Русский" },
+    { code = "th-th", name = "ไทย" },
+    { code = "tr-tr", name = "Türkçe" },
+    { code = "ua-ua", name = "Українська" },
+    { code = "zh-cn", name = "简体中文" },
+    { code = "zh-tw", name = "繁體中文" }
 }
 
 local strings = {
@@ -44,8 +45,8 @@ local strings = {
     ["th-th"] = { language = "ภาษา", follow = "ใช้ภาษาของเกม", projects = "โปรเจกต์", editProject = "แก้ไขโปรเจกต์", editInteraction = "แก้ไขการโต้ตอบ", editRemovals = "แก้ไขการนำออก", noProject = "ไม่ได้โหลดโปรเจกต์", settings = "การตั้งค่า" },
     ["tr-tr"] = { language = "Dil", follow = "Oyun dilini kullan", projects = "Projeler", editProject = "Projeyi düzenle", editInteraction = "Etkileşimi düzenle", editRemovals = "Kaldırmaları düzenle", noProject = "Proje yüklenmedi.", settings = "Ayarlar" },
     ["ua-ua"] = { language = "Мова", follow = "Використовувати мову гри", projects = "Проєкти", editProject = "Редагувати проєкт", editInteraction = "Редагувати взаємодію", editRemovals = "Редагувати вилучення", noProject = "Проєкт не завантажено.", settings = "Налаштування" },
-    ["zh-cn"] = { language = "语言", follow = "跟随游戏语言", projects = "项目", editProject = "编辑项目", editInteraction = "编辑交互", editRemovals = "编辑移除项", noProject = "未加载项目。", settings = "设置" },
-    ["zh-tw"] = { language = "語言", follow = "跟隨遊戲語言", projects = "專案", editProject = "編輯專案", editInteraction = "編輯互動", editRemovals = "編輯移除項", noProject = "未載入專案。", settings = "設定" }
+    ["zh-cn"] = { language = "语言", follow = "跟随游戏语言", projects = "项目", editProject = "编辑项目", editInteraction = "编辑交互", editRemovals = "编辑移除项", noProject = "未加载项目。", noInteraction = "未加载交互项。", settings = "设置" },
+    ["zh-tw"] = { language = "語言", follow = "跟隨遊戲語言", projects = "專案", editProject = "編輯專案", editInteraction = "編輯互動", editRemovals = "編輯移除項", noProject = "未載入專案。", noInteraction = "未載入互動項目。", settings = "設定" }
 }
 
 local aliases = {
@@ -86,6 +87,10 @@ end
 
 function localization.get(key)
     return (strings[active] and strings[active][key]) or strings["en-us"][key] or key
+end
+
+function localization.text(value)
+    return (uiText[active] and uiText[active][value]) or value
 end
 
 function localization.getLanguages()

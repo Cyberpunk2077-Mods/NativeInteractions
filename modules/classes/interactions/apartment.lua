@@ -1,4 +1,5 @@
 local style = require("modules/ui/style")
+local localization = require("modules/localization")
 local utils = require("modules/utils/utils")
 local workspot = require("modules/classes/interactions/workspot")
 local apartmentManager = require("modules/apartmentManager")
@@ -461,7 +462,7 @@ function apartment:drawBase()
         self.apartmentKeyTDBID, changed = ImGui.InputTextWithHint('##apartmentKeyTDBID', 'Keycards.apartment_key', self.apartmentKeyTDBID, 250)
         if ImGui.IsItemDeactivatedAfterEdit() then self.project:save() end
     else
-        ImGui.Text("Keycards." .. (self.purchasedFact ~= "" and self.purchasedFact or "MISSING"))
+        ImGui.Text("Keycards." .. (self.purchasedFact ~= "" and self.purchasedFact or localization.text("MISSING")))
 
         if self.purchasedFact ~= "" then ImGui.SameLine() end
         if self.purchasedFact ~= "" and style.buttonNoBG(IconGlyphs.ContentCopy) then
@@ -721,7 +722,7 @@ function apartment:draw()
     self:drawMedia()
     self:drawTutorial()
 
-    if ImGui.Button("Reset All") then
+    if ImGui.Button(localization.text("Reset All")) then
         self:reset()
     end
     style.tooltip("Resets apartment purchase state, removes key item, resets mappins, refunds money and resets tutorial")

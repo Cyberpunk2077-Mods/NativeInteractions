@@ -1,4 +1,5 @@
 local style = require("modules/ui/style")
+local localization = require("modules/localization")
 local utils = require("modules/utils/utils")
 local resourceHelper = require("modules/utils/resourceHelper")
 local workspot = require("modules/classes/interactions/workspot")
@@ -106,7 +107,7 @@ function iguana:draw()
     end
 
     style.mutedText("Try to limit this interaction to at most one per location.")
-    style.mutedText(string.format("Distance between two iguanas should be at least %dm.", self.animationDistance * 2))
+    style.mutedText(string.format(localization.text("Distance between two iguanas should be at least %dm."), self.animationDistance * 2))
 
     style.mutedText("Iguana:")
     ImGui.SameLine()

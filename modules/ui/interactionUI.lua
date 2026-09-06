@@ -208,7 +208,7 @@ function interactionUI.drawBaseOptions()
     style.mutedText("Name:")
     ImGui.SameLine()
     ImGui.SetCursorPosX(interactionUI.maxBasePropertyWidth)
-    interactionUI.interaction.name, _ = ImGui.InputTextWithHint('##Name', 'Name...', interactionUI.interaction.name, 50)
+    interactionUI.interaction.name, _ = ImGui.InputTextWithHint('##Name', localization.text("Name..."), interactionUI.interaction.name, 50)
     if ImGui.IsItemDeactivatedAfterEdit() then
         interactionUI.project:save()
     end

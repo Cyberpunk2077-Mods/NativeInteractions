@@ -69,7 +69,7 @@ function editUI.draw(mod)
     editUI.newInteractionIndex, _ = ImGui.Combo("##newInteractionIndex", editUI.newInteractionIndex, interactionNames, #interactionNames)
     ImGui.SameLine()
     style.setNextItemWidth(125)
-    editUI.newInteractionName, _ = ImGui.InputTextWithHint("##newInteractionName", "New Interaction Name...", editUI.newInteractionName, 50)
+    editUI.newInteractionName, _ = ImGui.InputTextWithHint("##newInteractionName", localization.text("New Interaction Name..."), editUI.newInteractionName, 50)
     ImGui.SameLine()
     if style.buttonNoBG(IconGlyphs.Plus) then
         local data = interactions[editUI.newInteractionIndex + 1].class:new(editUI.mod, editUI.project)
@@ -99,7 +99,7 @@ function editUI.draw(mod)
         style.styledText(entry.editorIcon, color)
         style.tooltip(state)
         ImGui.SameLine()
-        entry.name, _ = ImGui.InputTextWithHint("##Name", "Name...", entry.name, 50)
+        entry.name, _ = ImGui.InputTextWithHint("##Name", localization.text("Name..."), entry.name, 50)
         if ImGui.IsItemDeactivatedAfterEdit() then
             editUI.project:save()
         end

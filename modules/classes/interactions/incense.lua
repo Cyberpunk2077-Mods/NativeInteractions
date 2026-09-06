@@ -1,4 +1,5 @@
 local style = require("modules/ui/style")
+local localization = require("modules/localization")
 local utils = require("modules/utils/utils")
 local world = require("modules/utils/worldInteraction")
 local resourceHelper = require("modules/utils/resourceHelper")
@@ -151,7 +152,7 @@ function incense:draw()
     if ImGui.IsItemDeactivatedAfterEdit() then self.project:save() end
     style.tooltip("Distance from the interaction icon where the incense stick will reset.")
     ImGui.SameLine()
-    if ImGui.Button("Reset") then
+    if ImGui.Button(localization.text("Reset")) then
         self:reset()
     end
 

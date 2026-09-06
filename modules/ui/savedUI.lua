@@ -37,7 +37,7 @@ function savedUI.drawLoaded()
     style.mutedText("Name:")
     ImGui.SameLine()
     ImGui.SetCursorPosX(savedUI.maxLoadedTextWidth)
-    savedUI.loadedFileName, _ = ImGui.InputTextWithHint('##Name', 'Name...', savedUI.loadedFileName, 40)
+    savedUI.loadedFileName, _ = ImGui.InputTextWithHint('##Name', localization.text("Name..."), savedUI.loadedFileName, 40)
     if ImGui.IsItemDeactivatedAfterEdit() then
         local currentProject = savedUI.mod.baseUI.editUI.project
 
@@ -65,7 +65,7 @@ end
 
 function savedUI.drawCreateNew()
     style.setNextItemWidth(250)
-    savedUI.newFileName, _ = ImGui.InputTextWithHint('##newName', 'Project Name...', savedUI.newFileName, 40)
+    savedUI.newFileName, _ = ImGui.InputTextWithHint('##newName', localization.text("Project Name..."), savedUI.newFileName, 40)
     ImGui.SameLine()
 
     style.pushButtonNoBG(true)
@@ -102,7 +102,7 @@ function savedUI.draw(mod)
     style.sectionHeaderStart("ALL PROJECTS", "Load or delete saved projects.")
 
     style.setNextItemWidth(250)
-    savedUI.filter, _ = ImGui.InputTextWithHint('##Filter', 'Search for data...', savedUI.filter, 100)
+    savedUI.filter, _ = ImGui.InputTextWithHint('##Filter', localization.text("Search for data..."), savedUI.filter, 100)
 
     if savedUI.filter ~= '' then
         ImGui.SameLine()
@@ -160,13 +160,13 @@ function savedUI.handlePopUp()
     end
 
     if ImGui.BeginPopupModal("Delete Project?", true, ImGuiWindowFlags.AlwaysAutoResize) then
-        if ImGui.Button("Cancel") then
+        if ImGui.Button(localization.text("Cancel")) then
             ImGui.CloseCurrentPopup()
         end
 
         ImGui.SameLine()
 
-        if ImGui.Button("Confirm") then
+        if ImGui.Button(localization.text("Confirm")) then
             ImGui.CloseCurrentPopup()
             savedUI.delete(savedUI.deleteData)
         end

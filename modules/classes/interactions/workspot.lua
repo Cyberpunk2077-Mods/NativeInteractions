@@ -1,5 +1,6 @@
 local utils = require("modules/utils/utils")
 local style = require("modules/ui/style")
+local localization = require("modules/localization")
 local interaction = require("modules/classes/interaction")
 
 ---Class for base workspot interaction
@@ -122,7 +123,7 @@ function workspot:draw(pendingText)
     if self.workspotPositionPending then
         ImGui.SameLine()
         style.styledText(IconGlyphs.AlertOutline, 0xFF0000FF)
-        style.tooltip(string.format("Workspot position will be updated %s", pendingText or "next time the interaction prompt gets hidden."))
+        style.tooltip(string.format(localization.text("Workspot position will be updated %s"), pendingText or localization.text("next time the interaction prompt gets hidden.")))
     end
 
     style.mutedText("Workspot Orientation:")
@@ -142,7 +143,7 @@ function workspot:draw(pendingText)
     if self.workspotRotationPending then
         ImGui.SameLine()
         style.styledText(IconGlyphs.AlertOutline, 0xFF0000FF)
-        style.tooltip(string.format("Workspot rotation will be updated %s", pendingText or "next time the interaction prompt gets hidden."))
+        style.tooltip(string.format(localization.text("Workspot rotation will be updated %s"), pendingText or localization.text("next time the interaction prompt gets hidden.")))
     end
 
     style.sectionHeaderEnd()

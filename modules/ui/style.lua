@@ -1,4 +1,5 @@
 -- Most of the colors and style has been taken from https://github.com/psiberx/cp2077-red-hot-tools
+local localization = require("modules/localization")
 local style = {
     mutedColor = 0xFFA5A19B,
     extraMutedColor = 0x96A5A19B,
@@ -69,7 +70,7 @@ function style.tooltip(text)
     if ImGui.IsItemHovered() then
         style.setCursorRelative(8, 8)
 
-        ImGui.SetTooltip(text)
+        ImGui.SetTooltip(localization.text(text))
     end
 end
 
@@ -104,7 +105,7 @@ end
 ---@param tooltip string?
 function style.sectionHeaderStart(text, tooltip)
     ImGui.SetWindowFontScale(0.85)
-    ImGui.Text(text)
+    ImGui.Text(localization.text(text))
 
     if tooltip then
         style.tooltip(tooltip)
@@ -128,7 +129,7 @@ function style.sectionHeaderEnd(noSpacing)
 end
 
 function style.mutedText(text)
-    style.styledText(text, style.mutedColor)
+    style.styledText(localization.text(text), style.mutedColor)
 end
 
 ---@param text string
@@ -138,7 +139,7 @@ function style.styledText(text, color, size)
     style.pushStyleColor(color ~= nil, ImGuiCol.Text, color)
     ImGui.SetWindowFontScale(size or 1)
 
-    ImGui.Text(text)
+    ImGui.Text(localization.text(text))
 
     style.popStyleColor(color ~= nil)
     ImGui.SetWindowFontScale(1)
@@ -156,6 +157,7 @@ function style.pushButtonNoBG(push)
 end
 
 function style.toggleButton(text, state)
+    text = localization.text(text)
     style.pushStyleColor(not state, ImGuiCol.Text, style.mutedColor)
     style.pushButtonNoBG(true)
 	ImGui.Button(text)
@@ -179,6 +181,8 @@ function style.getMaxWidth(min)
 end
 
 function style.trackedSearchDropdown(text, searchHint, value, options, width)
+    text = localization.text(text)
+    searchHint = localization.text(searchHint)
     local finished = false
 
     ImGui.SetNextItemWidth(width * style.viewSize)
@@ -214,6 +218,7 @@ function style.trackedSearchDropdown(text, searchHint, value, options, width)
 end
 
 function style.buttonNoBG(text)
+    text = localization.text(text)
     style.pushButtonNoBG(true)
     if ImGui.Button(text) then
         style.pushButtonNoBG(false)
@@ -225,6 +230,7 @@ function style.buttonNoBG(text)
 end
 
 function style.drawNoBGConditionalButton(condition, text, greyed)
+    text = localization.text(text)
     local push = false
     local greyed = greyed ~= nil and greyed or false
 
@@ -263,12 +269,13 @@ function style.drawNodeRefInfo(ref, shouldBeEntity)
 end
 
 function style.drawHelp(text, link)
+    text = localization.text(text)
     style.pushButtonNoBG(true)
     if ImGui.Button(IconGlyphs.HelpCircleOutline) then
         ImGui.SetClipboardText(link)
-        ImGui.ShowToast(ImGui.Toast.new(ImGui.ToastType.Success, 2500, "Copied wiki link to clipboard"))
+        ImGui.ShowToast(ImGui.Toast.new(ImGui.ToastType.Success, 2500, localization.text("Copied wiki link to clipboard")))
     end
-    style.tooltip(text .. "\n\n [CLICK] Copy wiki link to clipboard")
+    style.tooltip(text .. "\n\n " .. localization.text("[CLICK] Copy wiki link to clipboard"))
     style.pushButtonNoBG(false)
 
     return false
